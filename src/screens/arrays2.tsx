@@ -58,7 +58,7 @@ const enrollments = [
         });
         console.log('----------------');
       }}>
-        TEST 1
+        TEST 1 test
       </Text>
     </View>
   )
