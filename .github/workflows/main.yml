@@ -1,0 +1,39 @@
+name: Expo EAS Build CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: TypeScript check
+        run: npm run ts
+
+      - name: Lint check
+        run: npm run lint
+
+      - name: Prettier check
+        run: npm run prettier
+
+      - name: Login to Expo
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: npx eas login --token $EXPO_TOKEN
+
+      - name: Run EAS Build
+        run: npx eas build --platform android --profile production --non-interactive
