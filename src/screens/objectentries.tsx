@@ -2,6 +2,25 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
+type Product = {
+  id: number;
+  name: string;
+  categoryId: number;
+  stock: number;
+};
+
+type Category = {
+  id: number;
+  name: string;
+};
+
+type Grouped = {
+  [categoryName: string]: {
+    totalStock: number;
+    items: Product[];
+  };
+};
+
 export default function Objectentries() {
   const products = [
     { id: 1, name: 'Apple', categoryId: 10, stock: 5 },
@@ -19,7 +38,7 @@ export default function Objectentries() {
 
   const blacklistIds = [2, 5];
 
-  const result = categories.reduce((acc, current)=>{
+  const result = categories.reduce<Grouped>((acc, current)=>{
     const {name, id} = current;
     if (!acc[name]) {
       acc[name] = {
